@@ -27,17 +27,37 @@ import { StudentDirectoryView } from './components/students/StudentDirectoryView
 import { InterventionManagementView } from './components/interventions/InterventionManagementView';
 import { PagePlaceholder } from './components/common/PagePlaceholder';
 
+const getInitialPage = (): NavigationPage => {
+  if (typeof window !== 'undefined') {
+    const params = new URLSearchParams(window.location.search);
+    const p = params.get('page');
+    if (p && ['overview', 'students', 'interventions', 'placement', 'data'].includes(p)) {
+      return p as NavigationPage;
+    }
+  }
+  return 'overview';
+};
+
 export default function App() {
   const [dataResult, setDataResult] = useState<ReconciliationResult | null>(null);
   const [interventions, setInterventions] = useState<Intervention[]>([]);
   const [prefilledStudentForIntervention, setPrefilledStudentForIntervention] = useState<UnifiedStudent | null>(null);
   const [autoOpenCreateIntervention, setAutoOpenCreateIntervention] = useState(false);
-  const [currentPage, setCurrentPage] = useState<NavigationPage>('overview');
+  const [currentPage, setCurrentPage] = useState<NavigationPage>(getInitialPage);
   const [currentRole, setCurrentRole] = useState<UserRole>('administrator');
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedStudent, setSelectedStudent] = useState<UnifiedStudent | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+
+  const handleNavigate = (page: NavigationPage) => {
+    setCurrentPage(page);
+    if (typeof window !== 'undefined') {
+      const url = new URL(window.location.href);
+      url.searchParams.set('page', page);
+      window.history.replaceState({}, '', url.toString());
+    }
+  };
 
   // Initialize synthetic dataset and domain engine
   useEffect(() => {
@@ -172,7 +192,7 @@ export default function App() {
       {/* Sidebar Navigation */}
       <Sidebar
         currentPage={currentPage}
-        onNavigate={(page) => setCurrentPage(page)}
+        onNavigate={handleNavigate}
         currentRole={currentRole}
         isOpen={isMobileSidebarOpen}
         onClose={() => setIsMobileSidebarOpen(false)}
@@ -190,7 +210,7 @@ export default function App() {
           onOpenMobileMenu={() => setIsMobileSidebarOpen(true)}
           searchQuery={searchQuery}
           onSearchChange={(q) => setSearchQuery(q)}
-          onNavigateToStudents={() => setCurrentPage('students')}
+          onNavigateToStudents={() => handleNavigate('students')}
         />
 
         {/* Page Content Region */}
@@ -199,10 +219,10 @@ export default function App() {
             <OverviewView
               students={studentsWithInterventions}
               currentRole={currentRole}
-              onNavigate={(page) => setCurrentPage(page)}
+              onNavigate={handleNavigate}
               onSelectStudent={(stu) => {
                 setSelectedStudent(stu);
-                setCurrentPage('students');
+                handleNavigate('students');
               }}
             />
           ) : currentPage === 'students' ? (
@@ -211,7 +231,7 @@ export default function App() {
               initialSearchQuery={searchQuery}
               selectedStudent={activeSelectedStudent}
               onSelectStudent={setSelectedStudent}
-              onNavigateToInterventions={() => setCurrentPage('interventions')}
+              onNavigateToInterventions={() => handleNavigate('interventions')}
               onTriggerIntervention={handleTriggerInterventionFromStudent}
             />
           ) : currentPage === 'interventions' ? (
@@ -231,7 +251,7 @@ export default function App() {
           ) : (
             <PagePlaceholder
               page={currentPage}
-              onNavigateToOverview={() => setCurrentPage('overview')}
+              onNavigateToOverview={() => handleNavigate('overview')}
             />
           )}
         </main>

@@ -39,6 +39,16 @@ export default {
           teal: '#0D9488',
         }
       },
+      boxShadow: {
+        '2xs': '0 1px 2px 0 rgba(15, 23, 42, 0.04)',
+        'xs': '0 1px 2px 0 rgba(15, 23, 42, 0.05)',
+      },
+      borderWidth: {
+        '3': '3px',
+      },
+      backdropBlur: {
+        '2xs': '2px',
+      },
       fontFamily: {
         sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
       }
