@@ -1,0 +1,44 @@
+# CampusPulse Synthetic Demo Dataset - For Institutional Simulation & Testing Only
+intervention_id,student_id,student_name,type,priority,status,assigned_to,created_at,target_follow_up_date,notes
+INT-001,1MS22ME012,Vandana Shetty,Attendance Counseling,high,in_progress,Prof. Sunita Deshpande,2026-10-01,2026-10-20,Parent notified of 62% attendance. Weekly counseling scheduled.
+INT-002,1MS22IS014,Divya Iyer,Attendance Counseling,high,in_progress,Prof. Sunita Deshpande,2026-10-01,2026-10-20,Parent notified of 62% attendance. Weekly counseling scheduled.
+INT-003,1MS22EC015,Chetan Joshi,Academic Tutoring,high,pending,Dr. Ramesh Shastri,2026-10-05,2026-10-25,Assigned senior student peer mentor for Data Structures backlog remediation.
+INT-004,1MS22ME016,Jaya Sen,Academic Tutoring,high,pending,Dr. Ramesh Shastri,2026-10-05,2026-10-25,Assigned senior student peer mentor for Data Structures backlog remediation.
+INT-005,1MS22CS017,Pooja Kulkarni,Academic Tutoring,high,pending,Dr. Ramesh Shastri,2026-10-05,2026-10-25,Assigned senior student peer mentor for Data Structures backlog remediation.
+INT-006,1MS22EC019,Varun Shah,Placement Upskilling,medium,in_progress,Placement Training Cell,2026-10-08,2026-10-28,Enrolled in LeetCode 30-day DSA bootcamp to bridge coding gap.
+INT-007,1MS22ME032,Rohan Kumar,Attendance Counseling,high,in_progress,Prof. Meenakshi Sundaram,2026-10-01,2026-10-20,Parent notified of 62% attendance. Weekly counseling scheduled.
+INT-008,1MS22IS034,Meera Pillai,Attendance Counseling,high,in_progress,Prof. Meenakshi Sundaram,2026-10-01,2026-10-20,Parent notified of 62% attendance. Weekly counseling scheduled.
+INT-009,1MS22EC035,Abhishek Das,Academic Tutoring,high,pending,Dr. Ramesh Shastri,2026-10-05,2026-10-25,Assigned senior student peer mentor for Data Structures backlog remediation.
+INT-010,1MS22ME036,Ananya Nair,Academic Tutoring,high,pending,Dr. Ramesh Shastri,2026-10-05,2026-10-25,Assigned senior student peer mentor for Data Structures backlog remediation.
+INT-011,1MS22CS037,Gaurav Banerjee,Academic Tutoring,high,pending,Dr. Ramesh Shastri,2026-10-05,2026-10-25,Assigned senior student peer mentor for Data Structures backlog remediation.
+INT-012,1MS22EC039,Rhea Gupta,Placement Upskilling,medium,in_progress,Placement Training Cell,2026-10-08,2026-10-28,Enrolled in LeetCode 30-day DSA bootcamp to bridge coding gap.
+INT-013,1MS22ME052,Kiran Patel,Attendance Counseling,high,in_progress,Prof. Lakshmi Narayanan,2026-10-01,2026-10-20,Parent notified of 62% attendance. Weekly counseling scheduled.
+INT-014,1MS22IS054,Shreya Prasad,Attendance Counseling,high,in_progress,Prof. Lakshmi Narayanan,2026-10-01,2026-10-20,Parent notified of 62% attendance. Weekly counseling scheduled.
+INT-015,1MS22EC055,Vikram Reddy,Academic Tutoring,high,pending,Dr. Ramesh Shastri,2026-10-05,2026-10-25,Assigned senior student peer mentor for Data Structures backlog remediation.
+INT-016,1MS22ME056,Swati Chakraborty,Academic Tutoring,high,pending,Dr. Ramesh Shastri,2026-10-05,2026-10-25,Assigned senior student peer mentor for Data Structures backlog remediation.
+INT-017,1MS22CS057,Rajesh Mukherjee,Academic Tutoring,high,pending,Dr. Ramesh Shastri,2026-10-05,2026-10-25,Assigned senior student peer mentor for Data Structures backlog remediation.
+INT-018,1MS22EC059,Kavya Pandey,Placement Upskilling,medium,in_progress,Placement Training Cell,2026-10-08,2026-10-28,Enrolled in LeetCode 30-day DSA bootcamp to bridge coding gap.
+INT-019,1MS22ME072,Bhavya Shetty,Attendance Counseling,high,in_progress,Prof. Sunita Deshpande,2026-10-01,2026-10-20,Parent notified of 62% attendance. Weekly counseling scheduled.
+INT-020,1MS22IS074,Nikhil Iyer,Attendance Counseling,high,in_progress,Prof. Sunita Deshpande,2026-10-01,2026-10-20,Parent notified of 62% attendance. Weekly counseling scheduled.
+INT-021,1MS22EC075,Ruchi Joshi,Academic Tutoring,high,pending,Dr. Ramesh Shastri,2026-10-05,2026-10-25,Assigned senior student peer mentor for Data Structures backlog remediation.
+INT-022,1MS22ME076,Tarun Sen,Academic Tutoring,high,pending,Dr. Ramesh Shastri,2026-10-05,2026-10-25,Assigned senior student peer mentor for Data Structures backlog remediation.
+INT-023,1MS22CS077,Rishi Kulkarni,Academic Tutoring,high,pending,Dr. Ramesh Shastri,2026-10-05,2026-10-25,Assigned senior student peer mentor for Data Structures backlog remediation.
+INT-024,1MS22EC079,Arjun Shah,Placement Upskilling,medium,in_progress,Placement Training Cell,2026-10-08,2026-10-28,Enrolled in LeetCode 30-day DSA bootcamp to bridge coding gap.
+INT-025,1MS22ME092,Shruti Kumar,Attendance Counseling,high,in_progress,Prof. Meenakshi Sundaram,2026-10-01,2026-10-20,Parent notified of 62% attendance. Weekly counseling scheduled.
+INT-026,1MS22IS094,Diya Pillai,Attendance Counseling,high,in_progress,Prof. Meenakshi Sundaram,2026-10-01,2026-10-20,Parent notified of 62% attendance. Weekly counseling scheduled.
+INT-027,1MS22EC095,Madhav Das,Academic Tutoring,high,pending,Dr. Ramesh Shastri,2026-10-05,2026-10-25,Assigned senior student peer mentor for Data Structures backlog remediation.
+INT-028,1MS22ME096,Rahul Nair,Academic Tutoring,high,pending,Dr. Ramesh Shastri,2026-10-05,2026-10-25,Assigned senior student peer mentor for Data Structures backlog remediation.
+INT-029,1MS22CS097,Sneha Banerjee,Academic Tutoring,high,pending,Dr. Ramesh Shastri,2026-10-05,2026-10-25,Assigned senior student peer mentor for Data Structures backlog remediation.
+INT-030,1MS22EC099,Akash Gupta,Placement Upskilling,medium,in_progress,Placement Training Cell,2026-10-08,2026-10-28,Enrolled in LeetCode 30-day DSA bootcamp to bridge coding gap.
+INT-031,1MS22ME112,Vandana Patel,Attendance Counseling,high,in_progress,Prof. Lakshmi Narayanan,2026-10-01,2026-10-20,Parent notified of 62% attendance. Weekly counseling scheduled.
+INT-032,1MS22IS114,Divya Prasad,Attendance Counseling,high,in_progress,Prof. Lakshmi Narayanan,2026-10-01,2026-10-20,Parent notified of 62% attendance. Weekly counseling scheduled.
+INT-033,1MS22EC115,Chetan Reddy,Academic Tutoring,high,pending,Dr. Ramesh Shastri,2026-10-05,2026-10-25,Assigned senior student peer mentor for Data Structures backlog remediation.
+INT-034,1MS22ME116,Jaya Chakraborty,Academic Tutoring,high,pending,Dr. Ramesh Shastri,2026-10-05,2026-10-25,Assigned senior student peer mentor for Data Structures backlog remediation.
+INT-035,1MS22CS117,Pooja Mukherjee,Academic Tutoring,high,pending,Dr. Ramesh Shastri,2026-10-05,2026-10-25,Assigned senior student peer mentor for Data Structures backlog remediation.
+INT-036,1MS22EC119,Varun Pandey,Placement Upskilling,medium,in_progress,Placement Training Cell,2026-10-08,2026-10-28,Enrolled in LeetCode 30-day DSA bootcamp to bridge coding gap.
+INT-037,1MS22ME132,Rohan Shetty,Attendance Counseling,high,in_progress,Prof. Sunita Deshpande,2026-10-01,2026-10-20,Parent notified of 62% attendance. Weekly counseling scheduled.
+INT-038,1MS22IS134,Meera Iyer,Attendance Counseling,high,in_progress,Prof. Sunita Deshpande,2026-10-01,2026-10-20,Parent notified of 62% attendance. Weekly counseling scheduled.
+INT-039,1MS22EC135,Abhishek Joshi,Academic Tutoring,high,pending,Dr. Ramesh Shastri,2026-10-05,2026-10-25,Assigned senior student peer mentor for Data Structures backlog remediation.
+INT-040,1MS22ME136,Ananya Sen,Academic Tutoring,high,pending,Dr. Ramesh Shastri,2026-10-05,2026-10-25,Assigned senior student peer mentor for Data Structures backlog remediation.
+INT-041,1MS22CS137,Gaurav Kulkarni,Academic Tutoring,high,pending,Dr. Ramesh Shastri,2026-10-05,2026-10-25,Assigned senior student peer mentor for Data Structures backlog remediation.
+INT-042,1MS22EC139,Rhea Shah,Placement Upskilling,medium,in_progress,Placement Training Cell,2026-10-08,2026-10-28,Enrolled in LeetCode 30-day DSA bootcamp to bridge coding gap.

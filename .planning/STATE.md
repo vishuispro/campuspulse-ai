@@ -2,26 +2,29 @@
 
 ## Current Position
 - **Current Milestone**: Milestone 1 (Hackathon MVP v1.0.0)
-- **Current Phase**: Phase 1 — Architecture, Product Scope & Data Contracts (Completed)
-- **Next Phase**: Phase 2 — Scaffolding, Core Ingestion & Deterministic Scoring Engine
-- **Status**: Awaiting User Review & Approval to Begin Scaffolding
+- **Current Phase**: Phase 2 — Project Scaffolding & Core Domain Engine (Completed)
+- **Next Phase**: Phase 3 — Design System Shell, Navigation & Student Directory
+- **Status**: Completed Phase 2, tests passing (13/13), production build clean, awaiting user review before Phase 3.
 
 ---
 
 ## Architectural & Product Decisions Log
-- **ADR-01 (Tech Stack)**: Selected Vite + React + TypeScript + Tailwind CSS + Lucide + Recharts + PapaParse for high responsiveness, zero backend failure risk during demos, and rapid iteration.
-- **ADR-02 (Transparent Scoring)**: Implemented deterministic, explainable scoring rules (ARI, PRI, SSS) with explicit point weights rather than unverified machine learning models, ensuring complete institutional credibility.
-- **ADR-03 (Data Ingestion Architecture)**: Client-side CSV reconciliation of 5 files via PapaParse, linked by canonical `student_id`, with anomaly detection for unmatched IDs, out-of-range marks, and missing values.
-- **ADR-04 (Design System)**: Adopted an institutional editorial visual identity using Warm Slate (`#F8FAFC`), Deep Oxford Navy (`#0F172A`), Muted Teal (`#0D9488`), and restrained semantic risk accents.
-- **ADR-05 (Dual-Layer AI)**: Deterministic heuristic rule templates for factor attribution and recommended interventions (100% offline reliable), with optional Gemini API enhancement when `VITE_GEMINI_API_KEY` is supplied.
+- **ADR-01 (Tech Stack Scaffolding)**: Successfully installed and verified Vite 6 + React 18 + TypeScript 5.6 + Tailwind CSS 3.4 + Recharts 2.13 + PapaParse 5.4.
+- **ADR-02 (Deterministic Scoring Engine)**: Implemented mathematical calculations for:
+  - Academic Risk Index (ARI, 0-100, higher = more risk)
+  - Placement Readiness Index (PRI, 0-100, higher = more ready)
+  - Student Success Score (SSS, 0-100, higher = stronger profile)
+  - Full factor decomposition (`ContributingFactor[]`) with explicit positive/negative weights.
+- **ADR-03 (Data Hygiene & Multi-Source Reconciliation)**:
+  - Cross-file student ID reconciliation across 5 CSV streams.
+  - Automatic detection of duplicate IDs, unmatched records, and out-of-range values.
+  - Incomplete data handling: Missing streams are never treated as zero and do not invent false certainty; confidence flags (`high`, `medium`, `low_incomplete_data`) are surfaced.
+- **ADR-04 (Configurable Rules)**: Scoring weights and institutional eligibility gates (e.g. 0-backlog rule for Tier-1 placement) are externalized in `src/config/scoringConfig.ts` with customizable overrides.
+- **ADR-05 (Synthetic Benchmark Dataset)**: Generated 150 realistic students across Computer Science, Information Science, Electronics, and Mechanical departments stored in separate CSVs labeled with synthetic demo disclaimers.
 
 ---
 
-## Deliverables Generated in Phase 1
-- `docs/PRODUCT_REQUIREMENTS.md` (Full Product Requirements Document)
-- `docs/IMPLEMENTATION_PLAN.md` (Comprehensive Technical Architecture & Implementation Plan)
-- `.planning/PROJECT.md` (Project Context)
-- `.planning/config.json` (GSD Workflow Configuration)
-- `.planning/REQUIREMENTS.md` (Scoped Functional & Technical Requirements)
-- `.planning/ROADMAP.md` (Phased Implementation Roadmap)
-- `.planning/STATE.md` (Active State & Decision Log)
+## Test & Build Verification
+- **Automated Tests**: 13/13 passing in 311ms (`src/tests/scoringEngine.test.ts`, `src/tests/dataReconciler.test.ts`).
+- **TypeScript Typecheck**: Passed (`tsc -b`), zero errors.
+- **Vite Production Build**: Passed (`dist/`), zero errors.
