@@ -121,6 +121,14 @@ export interface PlacementData {
   opt_in_placement: boolean;
 }
 
+export interface StatusHistoryEntry {
+  from_status: InterventionStatus;
+  to_status: InterventionStatus;
+  timestamp: string;
+  changed_by: string;
+  notes?: string;
+}
+
 export interface Intervention {
   id: string;
   student_id: string;
@@ -133,6 +141,8 @@ export interface Intervention {
   target_follow_up_date: string;
   notes: string;
   outcome_notes?: string;
+  is_user_created?: boolean;
+  status_history?: StatusHistoryEntry[];
 }
 
 // --- EXPLAINABLE CONTRIBUTING FACTORS & RECOMMENDATIONS ---

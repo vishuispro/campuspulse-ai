@@ -18,6 +18,7 @@ interface StudentDirectoryViewProps {
   selectedStudent: UnifiedStudent | null;
   onSelectStudent: (student: UnifiedStudent | null) => void;
   onNavigateToInterventions?: () => void;
+  onTriggerIntervention?: (student: UnifiedStudent) => void;
 }
 
 export function StudentDirectoryView({
@@ -26,6 +27,7 @@ export function StudentDirectoryView({
   selectedStudent,
   onSelectStudent,
   onNavigateToInterventions,
+  onTriggerIntervention,
 }: StudentDirectoryViewProps) {
   // Filters State
   const [filters, setFilters] = useState<StudentFilterCriteria>(() => ({
@@ -124,9 +126,13 @@ export function StudentDirectoryView({
         student={selectedStudent}
         isOpen={selectedStudent !== null}
         onClose={() => onSelectStudent(null)}
-        onTriggerIntervention={() => {
-          onSelectStudent(null);
-          onNavigateToInterventions?.();
+        onTriggerIntervention={(stu) => {
+          if (onTriggerIntervention) {
+            onTriggerIntervention(stu);
+          } else {
+            onSelectStudent(null);
+            onNavigateToInterventions?.();
+          }
         }}
       />
     </div>

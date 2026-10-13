@@ -9,16 +9,29 @@ import {
   RawPlacementRecord,
   RawInterventionRecord,
   UnifiedStudent,
+  Intervention,
+  InterventionStatus,
 } from './types/student';
+import {
+  CreateInterventionInput,
+  loadInterventionsFromStorage,
+  createInterventionRecord,
+  updateInterventionLifecycleStatus,
+  updateInterventionFollowUp,
+} from './services/interventionStore';
 import { NavigationPage, UserRole } from './types/navigation';
 import { Sidebar } from './components/layout/Sidebar';
 import { Header } from './components/layout/Header';
 import { OverviewView } from './components/overview/OverviewView';
 import { StudentDirectoryView } from './components/students/StudentDirectoryView';
+import { InterventionManagementView } from './components/interventions/InterventionManagementView';
 import { PagePlaceholder } from './components/common/PagePlaceholder';
 
 export default function App() {
   const [dataResult, setDataResult] = useState<ReconciliationResult | null>(null);
+  const [interventions, setInterventions] = useState<Intervention[]>([]);
+  const [prefilledStudentForIntervention, setPrefilledStudentForIntervention] = useState<UnifiedStudent | null>(null);
+  const [autoOpenCreateIntervention, setAutoOpenCreateIntervention] = useState(false);
   const [currentPage, setCurrentPage] = useState<NavigationPage>('overview');
   const [currentRole, setCurrentRole] = useState<UserRole>('administrator');
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
@@ -34,31 +47,110 @@ export default function App() {
     const attendance = parseCsvString<RawAttendanceRecord>(bundle.attendanceCsv).data;
     const lms = parseCsvString<RawLMSActivityRecord>(bundle.lmsCsv).data;
     const placement = parseCsvString<RawPlacementRecord>(bundle.placementCsv).data;
-    const interventions = parseCsvString<RawInterventionRecord>(bundle.interventionsCsv).data;
+    const rawInterventions = parseCsvString<RawInterventionRecord>(bundle.interventionsCsv).data;
 
     const reconciled = reconcileCampusData({
       academics,
       attendance,
       lms,
       placement,
-      interventions,
+      interventions: rawInterventions,
     });
 
+    // Extract seed interventions and load from localStorage
+    const seedInterventions = reconciled.students.flatMap((s) => s.interventions);
+    const storedInterventions = loadInterventionsFromStorage(seedInterventions);
+
+    setInterventions(storedInterventions);
     setDataResult(reconciled);
     setIsLoading(false);
   }, []);
 
+  // Sync unified students with reactive interventions
+  const studentsWithInterventions = useMemo(() => {
+    if (!dataResult) return [];
+    const interventionsByStudent = new Map<string, Intervention[]>();
+    for (const item of interventions) {
+      const list = interventionsByStudent.get(item.student_id) || [];
+      list.push(item);
+      interventionsByStudent.set(item.student_id, list);
+    }
+
+    return dataResult.students.map((student) => ({
+      ...student,
+      interventions: interventionsByStudent.get(student.id) || [],
+    }));
+  }, [dataResult, interventions]);
+
+  // Keep selected student synced with updated interventions
+  const activeSelectedStudent = useMemo(() => {
+    if (!selectedStudent) return null;
+    return studentsWithInterventions.find((s) => s.id === selectedStudent.id) || selectedStudent;
+  }, [selectedStudent, studentsWithInterventions]);
+
   const openInterventionsCount = useMemo(() => {
-    if (!dataResult) return 0;
-    return dataResult.students
-      .flatMap((s) => s.interventions)
-      .filter((i) => i.status === 'pending' || i.status === 'in_progress').length;
-  }, [dataResult]);
+    return interventions.filter((i) => i.status === 'pending' || i.status === 'in_progress').length;
+  }, [interventions]);
 
   const criticalRiskCount = useMemo(() => {
     if (!dataResult) return 0;
-    return dataResult.students.filter((s) => s.academicRisk.level === 'Critical').length;
-  }, [dataResult]);
+    return studentsWithInterventions.filter((s) => s.academicRisk.level === 'Critical').length;
+  }, [dataResult, studentsWithInterventions]);
+
+  // Intervention Operations
+  const handleCreateIntervention = (input: CreateInterventionInput) => {
+    const res = createInterventionRecord(interventions, input);
+    setInterventions(res.updatedList);
+  };
+
+  const handleUpdateInterventionStatus = (
+    id: string,
+    newStatus: InterventionStatus,
+    resolutionNote?: string
+  ) => {
+    const actor =
+      currentRole === 'faculty_advisor'
+        ? 'Faculty Advisor'
+        : currentRole === 'placement_officer'
+        ? 'Placement Officer'
+        : 'Campus Administrator';
+    const res = updateInterventionLifecycleStatus(
+      interventions,
+      id,
+      newStatus,
+      actor,
+      resolutionNote
+    );
+    setInterventions(res.updatedList);
+  };
+
+  const handleUpdateFollowUp = (
+    id: string,
+    newFollowUpDate: string,
+    newNoteText?: string
+  ) => {
+    const actor =
+      currentRole === 'faculty_advisor'
+        ? 'Faculty Advisor'
+        : currentRole === 'placement_officer'
+        ? 'Placement Officer'
+        : 'Campus Administrator';
+    const res = updateInterventionFollowUp(
+      interventions,
+      id,
+      newFollowUpDate,
+      newNoteText,
+      actor
+    );
+    setInterventions(res.updatedList);
+  };
+
+  const handleTriggerInterventionFromStudent = (student: UnifiedStudent) => {
+    setPrefilledStudentForIntervention(student);
+    setAutoOpenCreateIntervention(true);
+    setSelectedStudent(null);
+    setCurrentPage('interventions');
+  };
 
   // Loading Screen
   if (isLoading || !dataResult) {
@@ -74,8 +166,6 @@ export default function App() {
       </div>
     );
   }
-
-  const { students } = dataResult;
 
   return (
     <div className="min-h-screen bg-[#F7F8FA] text-[#172B4D] flex flex-col font-sans antialiased">
@@ -107,7 +197,7 @@ export default function App() {
         <main className="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto">
           {currentPage === 'overview' ? (
             <OverviewView
-              students={students}
+              students={studentsWithInterventions}
               currentRole={currentRole}
               onNavigate={(page) => setCurrentPage(page)}
               onSelectStudent={(stu) => {
@@ -117,11 +207,26 @@ export default function App() {
             />
           ) : currentPage === 'students' ? (
             <StudentDirectoryView
-              students={students}
+              students={studentsWithInterventions}
               initialSearchQuery={searchQuery}
-              selectedStudent={selectedStudent}
+              selectedStudent={activeSelectedStudent}
               onSelectStudent={setSelectedStudent}
               onNavigateToInterventions={() => setCurrentPage('interventions')}
+              onTriggerIntervention={handleTriggerInterventionFromStudent}
+            />
+          ) : currentPage === 'interventions' ? (
+            <InterventionManagementView
+              interventions={interventions}
+              students={studentsWithInterventions}
+              onCreateIntervention={handleCreateIntervention}
+              onUpdateStatus={handleUpdateInterventionStatus}
+              onUpdateFollowUp={handleUpdateFollowUp}
+              initialStudent={prefilledStudentForIntervention}
+              autoOpenCreateModal={autoOpenCreateIntervention}
+              onClearInitialStudent={() => {
+                setPrefilledStudentForIntervention(null);
+                setAutoOpenCreateIntervention(false);
+              }}
             />
           ) : (
             <PagePlaceholder
