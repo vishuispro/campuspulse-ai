@@ -2,9 +2,9 @@
 
 ## Current Position
 - **Current Milestone**: Milestone 1 (Hackathon MVP v1.0.0)
-- **Current Phase**: Phase 3 — Visual Design System, Shell & Overview Screen (Completed)
-- **Next Phase**: Phase 4 — Student Directory & Risk Matrix, 360° Profile & Intervention Management
-- **Status**: Completed Phase 3, 13/13 unit tests passing, production build passing, dev server running at http://localhost:5173. Awaiting user review before Phase 4.
+- **Current Phase**: Phase 4a — Student Directory & Risk Matrix with 360° Inspection Drawer (Completed)
+- **Next Phase**: Phase 4b — Intervention Workflow & Case Management
+- **Status**: Completed Student Directory, 24/24 unit tests passing, production build clean, dev server running at http://localhost:5173.
 
 ---
 
@@ -21,16 +21,17 @@
   - Incomplete data handling: Missing streams are never treated as zero and do not invent false certainty; confidence flags (`high`, `medium`, `low_incomplete_data`) are surfaced.
 - **ADR-04 (Configurable Rules)**: Scoring weights and institutional eligibility gates are externalized in `src/config/scoringConfig.ts` with customizable overrides.
 - **ADR-05 (Synthetic Benchmark Dataset)**: Generated 150 realistic students across Computer Science, Information Science, Electronics, and Mechanical departments stored in separate CSVs labeled with synthetic demo disclaimers.
-- **ADR-06 (Visual Design System & Enterprise Shell)**:
-  - Editorial, high-density institutional palette: Canvas `#F7F8FA`, Surface `#FFFFFF`, Text `#172B4D`, Accent `#0D9488`, Border `#E6EAF0`, Critical `#DC2626`, Moderate `#D97706`, Positive `#15803D`.
-  - Accessible contrast, tabular figures (`font-variant-numeric: tabular-nums`), crisp focus rings.
-  - Responsive Application Shell with Sidebar (Overview, Students, Interventions, Placement, Data Management) and Header (Search, Role Selector for Administrator, Faculty Advisor, and Placement Officer, and Synthetic Demo Data Flag).
-  - Production Overview Screen: 4 real computed KPIs, Department Academic Risk distribution chart, Department Placement Readiness chart, and Priority Review table.
+- **ADR-06 (Visual Design System & Enterprise Shell)**: Editorial, high-density institutional palette: Canvas `#F7F8FA`, Surface `#FFFFFF`, Text `#172B4D`, Accent `#0D9488`, Border `#E6EAF0`, Critical `#DC2626`, Moderate `#D97706`, Positive `#15803D`.
+- **ADR-07 (Student Directory & Inspection Architecture)**:
+  - Pure filter, sort, and pagination functions in `src/utils/studentFilterSort.ts` ensuring deterministic, combined filtering.
+  - Interactive multi-facet controls: search by name/USN, department, semester, academic risk tier, placement tier, and quick "Students Needing Review" toggle.
+  - Sortable, responsive data table with clear column indicators, tabular numerals, accessible badges, and configurable page size (10, 25, 50).
+  - Focused 360° `StudentDetailDrawer`: Clear boundary between observed institutional records (marks, attendance, LMS, placement) and derived intelligence signals (ARI, PRI, SSS, and factor waterfalls). Missing data is transparently reported.
 
 ---
 
 ## Test & Build Verification
-- **Automated Tests**: 13/13 passing in 244ms (`src/tests/scoringEngine.test.ts`, `src/tests/dataReconciler.test.ts`).
+- **Automated Tests**: 24/24 passing in 281ms (`src/tests/scoringEngine.test.ts`, `src/tests/dataReconciler.test.ts`, `src/tests/studentDirectory.test.ts`).
 - **TypeScript Typecheck**: Passed (`tsc -b`), zero errors.
 - **Vite Production Build**: Passed (`dist/`), zero errors.
 - **Vite Dev Server**: Active at `http://localhost:5173/` (HTTP 200 OK verified).

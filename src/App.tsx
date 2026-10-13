@@ -14,6 +14,7 @@ import { NavigationPage, UserRole } from './types/navigation';
 import { Sidebar } from './components/layout/Sidebar';
 import { Header } from './components/layout/Header';
 import { OverviewView } from './components/overview/OverviewView';
+import { StudentDirectoryView } from './components/students/StudentDirectoryView';
 import { PagePlaceholder } from './components/common/PagePlaceholder';
 
 export default function App() {
@@ -22,7 +23,7 @@ export default function App() {
   const [currentRole, setCurrentRole] = useState<UserRole>('administrator');
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  const [, setSelectedStudent] = useState<UnifiedStudent | null>(null);
+  const [selectedStudent, setSelectedStudent] = useState<UnifiedStudent | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   // Initialize synthetic dataset and domain engine
@@ -44,9 +45,6 @@ export default function App() {
     });
 
     setDataResult(reconciled);
-    if (reconciled.students.length > 0) {
-      setSelectedStudent(reconciled.students[0]);
-    }
     setIsLoading(false);
   }, []);
 
@@ -112,7 +110,18 @@ export default function App() {
               students={students}
               currentRole={currentRole}
               onNavigate={(page) => setCurrentPage(page)}
-              onSelectStudent={(stu) => setSelectedStudent(stu)}
+              onSelectStudent={(stu) => {
+                setSelectedStudent(stu);
+                setCurrentPage('students');
+              }}
+            />
+          ) : currentPage === 'students' ? (
+            <StudentDirectoryView
+              students={students}
+              initialSearchQuery={searchQuery}
+              selectedStudent={selectedStudent}
+              onSelectStudent={setSelectedStudent}
+              onNavigateToInterventions={() => setCurrentPage('interventions')}
             />
           ) : (
             <PagePlaceholder
