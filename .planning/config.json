@@ -1,0 +1,20 @@
+{
+  "project_name": "CampusPulse",
+  "version": "1.0.0",
+  "mode": "hackathon",
+  "model_profile": "balanced",
+  "workflow": {
+    "research": true,
+    "plan_check": true,
+    "verifier": true,
+    "branching": false
+  },
+  "stack": {
+    "framework": "react",
+    "language": "typescript",
+    "bundler": "vite",
+    "styling": "tailwind",
+    "charts": "recharts",
+    "csv_parser": "papaparse"
+  }
+}
